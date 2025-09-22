@@ -37,5 +37,22 @@ def register():
 
     return jsonify({"message": "Utilisateur créé"}), 201
 
+@app.route("/check_email", methods=["POST"])
+def check_email():
+    data = request.get_json(force=True)
+    email = data.get("email")
+
+    if not email:
+        return jsonify({"error": "Email requis"}), 400
+
+    user = db.get_user(email)
+
+    if user is None:
+        print("Aucun compte trouvé pour cet email")
+        return jsonify({"message": "Pas encore de compte"}), 404
+    else:
+        print("Email trouvé :", user)
+        return jsonify({"message": "Email trouvé dans la base"}), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
