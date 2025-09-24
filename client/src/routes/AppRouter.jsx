@@ -4,7 +4,7 @@ import Home from "../pages/Home";
 import Login from "../pages/register";
 
 const router = createBrowserRouter([
-  { path: "/", Component: <PrivateRoute><Home /></PrivateRoute> },
+  { path: "/", element: <PrivateRoute><Home /></PrivateRoute> },
   { path: "/login", Component: Login}
 ]); 
 

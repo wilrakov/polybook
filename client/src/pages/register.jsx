@@ -1,36 +1,38 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
 
 export default function Register() {
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const handleSubmit = () => {
+  const mutation = useMutation({
+    mutationFn: async (formData) => {
+      const response = await fetch(`${import.meta.env.API_URL}/register`, {
+        method: "POST",
+        body: formData,
+      });
+      return response.json();
+    },
+  });
 
-   //TODO: refacto with tanstackQuery
-    const req = fetch(`${import.meta.env.API_URL}/register`, {
-      method: POST,
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        email: emailRef.value,
-        password: passwordRef.value,
-      }),
-    });
+  const handleSubmit = (event) => {
 
-
+    mutation.mutate(new FormData(event.target));
+    
+    
   };
 
   return (
     <>
       <h1>Register</h1>
-      <form action="">
-        <input type="email" ref={emailRef} placeholder="johnDoe@exemple.com" />
-        <input type="text" ref={passwordRef} placeholder="password..." />
-
-        <button onClick={handleSubmit}>submit</button>
+      <form onSubmit={handleSubmit}>
+        <input type="email" name="email" ref={emailRef} placeholder="johnDoe@exemple.com" />
+        <input type="text" name="password" ref={passwordRef} placeholder="password..." />
+        <button type="submit">submit</button>
       </form>
+
+      { mutation.isPending ? "..." : (mutation.isSuccess ? mutation.data.message : mutation.error.message)}
+
     </>
   );
 }
