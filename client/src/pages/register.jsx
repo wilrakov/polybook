@@ -31,7 +31,7 @@ export default function Register() {
         <button type="submit">submit</button>
       </form>
 
-      { mutation.isPending ? "..." : (mutation.isSuccess ? mutation.data.message : mutation.error.message)}
+      { mutation.isPending ? "..." : (mutation.isSuccess ? mutation.data.message : mutation.error?.message)}
 
     </>
   );
