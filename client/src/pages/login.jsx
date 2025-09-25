@@ -1,7 +1,8 @@
+import { AuthForm } from "@/components/AuthForm";
 import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
 
-export default function Register() {
+export default function login() {
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -21,28 +22,21 @@ export default function Register() {
 
   return (
     <>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          ref={emailRef}
-          placeholder="johnDoe@exemple.com"
-        />
-        <input
-          type="text"
-          name="password"
-          ref={passwordRef}
-          placeholder="password..."
-        />
-        <button type="submit">Login</button>
-      </form>
-
-      {mutation.isPending
-        ? "..."
-        : mutation.isSuccess
-        ? mutation.data.message
-        : mutation.error?.message}
+      <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+        <div className="w-full max-w-sm">
+          <AuthForm
+            onSubmit={handleSubmit}
+            emailRef={emailRef}
+            passwordRef={passwordRef}
+            type="login"
+          />
+        </div>
+        {mutation.isPending
+          ? "..."
+          : mutation.isSuccess
+          ? mutation.data.message
+          : mutation.error?.message}
+      </div>
     </>
   );
 }
