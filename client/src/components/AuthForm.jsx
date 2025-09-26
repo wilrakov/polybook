@@ -1,4 +1,4 @@
-import { GalleryVerticalEnd } from "lucide-react";
+import { SquareLibrary } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,7 +28,7 @@ export function AuthForm({
               className="flex flex-col items-center gap-2 font-medium"
             >
               <div className="flex size-8 items-center justify-center rounded-md">
-                <GalleryVerticalEnd className="size-6" />
+                <SquareLibrary className="size-6" />
               </div>
               <span className="sr-only">Polybook</span>
             </a>
@@ -73,11 +73,11 @@ export function AuthForm({
               />
             </div>
             {type === "register" ? (
-                          <Button type="submit" className="w-full">
+                          <Button type="submit" className="w-full cursor-pointer">
               Sign up
             </Button>
             ): (
-                          <Button type="submit" className="w-full">
+                          <Button type="submit" className="w-full cursor-pointer">
               Login
             </Button>
             )
