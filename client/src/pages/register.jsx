@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
 
 import { AuthForm } from "@/components/AuthForm";
-import { CarouselPlugin } from "@/components/carousel"
+import { CarouselPlugin } from "@/components/carousel";
 
 export default function register() {
   const emailRef = useRef();
@@ -25,26 +25,28 @@ export default function register() {
 
   return (
     <>
-<div className="grid min-h-screen grid-cols-1 md:grid-cols-2">
-  {/* Form side */}
-  <div className="flex items-center justify-center p-6 md:p-10 bg-background">
-    <div className="w-full max-w-sm">
-      <AuthForm
-        onSubmit={handleSubmit}
-        emailRef={emailRef}
-        passwordRef={passwordRef}
-        type="register"
-      />
-    </div>
-  </div>
+      <div className="grid min-h-screen grid-cols-1 md:grid-cols-2">
+        {/* Form side */}
+        <div className="flex items-center justify-center p-6 md:p-10 bg-background">
+          <div className="w-full max-w-sm">
+            <AuthForm
+              onSubmit={handleSubmit}
+              emailRef={emailRef}
+              passwordRef={passwordRef}
+              type="register"
+            />
+          </div>
+        </div>
 
-  {/* Content side */}
-  <div className="hidden md:flex flex-col justify-center p-10 bg-secondary text-secondary-foreground">
-    <CarouselPlugin />
-  </div>
-</div>
-
-
+        {/* Content side */}
+        <div className="hidden md:flex flex-col justify-center p-10 bg-secondary text-secondary-foreground">
+          <CarouselPlugin />
+          
+          <p className="text-xl font-light text-center m-6">
+            Every book has a story – discover yours
+          </p> 
+        </div>
+      </div>
     </>
   );
 }
