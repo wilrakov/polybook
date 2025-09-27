@@ -1,1 +1,4 @@
 flask
+dotenv
+pyjwt
+email_validator

@@ -1,11 +1,13 @@
 from db.db import AuthDB
-import os
+from datetime import datetime , timedelta
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
+from email_validator import validate_email, EmailNotValidError
+
+import os
 import hashlib
 import base64
 import jwt
-from datetime import datetime , timedelta
 
 app = Flask(__name__)
 db = AuthDB("polybook.db")
@@ -21,17 +23,25 @@ def register():
     """ 
     Attend un JSON du type :
     {
-        "email": "alice",
+        "username": "alice",
+        "email": "alice@mail.to",
         "password": "password provenant du client"
     }
     """
     data = request.get_json(force=True)
+    name = data.get("username")
     email = data.get("email")
     password = data.get("password")
-
-    if not email or not password:
+    
+    try:
+        valid = validate_email(email)  # renvoie un objet avec email normalisé
+        print("Email valide :", valid.email)
+    except EmailNotValidError as e:
+        print("Email invalide :", str(e))
+    
+    if not email or not password or not name:
         print("Erreur 1")
-        return jsonify({"error": "Email et Password requis"}), 400
+        return jsonify({"error": "Email, username et password requis"}), 400
 
     # === HASH DU MOT DE PASSE ===
     # On combine le mot de passe fourni avec le salt fixe
@@ -42,23 +52,23 @@ def register():
 
     # === AJOUT DE L'UTILISATEUR DANS LA DB ===
     # stocke l'email, le hash et le salt dans la DB
-    success = db.add_user_with_hash(email, hashed_password)
+    success = db.add_user_with_hash(email, hashed_password, name)
     if not success:
         return jsonify({"error": "Nom déjà utilisé"}), 400
 
     return jsonify({"message": "Utilisateur créé"}), 201
 
 @app.route("/login", methods=["POST"])
-def check_email():
+def login():
     data = request.get_json(force=True)
     email = data.get("email")
     password = data.get("password")
     SECRET_KEY = os.getenv("cle")
     token = jwt.encode(
-    {"sub": email, "exp": datetime.utcnow() + timedelta(hours=1)},
-    SECRET_KEY,
-    algorithm="HS256"
-)
+        {"sub": email, "exp": datetime.utcnow() + timedelta(hours=1)},
+        SECRET_KEY,
+        algorithm="HS256"
+    )
     if not email:
         return jsonify({"error": "Email requis"}), 400
 
