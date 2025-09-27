@@ -3,6 +3,7 @@ from datetime import datetime , timedelta
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from email_validator import validate_email, EmailNotValidError
+from flask_cors import CORS
 
 import os
 import hashlib
@@ -10,6 +11,8 @@ import base64
 import jwt
 
 app = Flask(__name__)
+CORS(app)
+
 db = AuthDB("polybook.db")
 db.init_db()
 
