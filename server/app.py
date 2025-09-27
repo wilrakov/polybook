@@ -42,13 +42,13 @@ def register():
 
     # === AJOUT DE L'UTILISATEUR DANS LA DB ===
     # stocke l'email, le hash et le salt dans la DB
-    success = db.add_user_with_hash(email, hashed_password, SALT_STR)
+    success = db.add_user_with_hash(email, hashed_password)
     if not success:
         return jsonify({"error": "Nom déjà utilisé"}), 400
 
     return jsonify({"message": "Utilisateur créé"}), 201
 
-@app.route("/check_email", methods=["POST"])
+@app.route("/login", methods=["POST"])
 def check_email():
     data = request.get_json(force=True)
     email = data.get("email")
@@ -64,7 +64,7 @@ def check_email():
 
     # === RÉCUPÉRATION DE L'UTILISATEUR ===
     # On cherche dans la DB si l'utilisateur existe
-    user = db.get_user(email)
+    user = db.get_password_hash(email)
     if user is None:
         print("Aucun compte trouvé pour cet email")
         return jsonify({"message": "Pas encore de compte"}), 404
@@ -77,7 +77,7 @@ def check_email():
 
     # === COMPARAISON AVEC LE HASH STOCKÉ ===
     # On récupère le hash stocké dans la DB et on compare
-    stored_hash = user["password_hash"]  # adapter selon le nom de la colonne dans ta DB
+    stored_hash = user # adapter selon le nom de la colonne dans ta DB
     if hashed_password == stored_hash:
         return jsonify({"token": token , "user":{"email" : email}}), 200
     else:
