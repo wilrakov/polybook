@@ -1,3 +1,4 @@
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import AppRouter from "./routes/AppRouter";
@@ -15,3 +16,4 @@ function App() {
 }
 
 export default App;
+
