@@ -1,18 +1,11 @@
-import { SquareLibrary } from 'lucide-react';
+import { SquareLibrary } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 
-export function AuthForm({
-  type,
-  emailRef,
-  passwordRef,
-  onSubmit,
-  className,
-  ...props
-}) {
+export function AuthForm({ type, onSubmit, className, ...props }) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form
@@ -48,41 +41,49 @@ export function AuthForm({
                 </Link>
               </div>
             )}
-
-          
           </div>
           <div className="flex flex-col gap-6">
+            {type === "register" && (
+              <div className="grid gap-3">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  name="username"
+                  type="text"
+                  placeholder="Jhon Doe"
+                  required
+                />
+              </div>
+            )}
             <div className="grid gap-3">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
-                inputRef={emailRef}
+                name="email"
                 placeholder="m@example.com"
                 required
               />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="email">Password</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
-                inputRef={passwordRef}
+                name="password"
                 placeholder="•••••••••••"
                 required
               />
             </div>
             {type === "register" ? (
-                          <Button type="submit" className="w-full cursor-pointer">
-              Sign up
-            </Button>
-            ): (
-                          <Button type="submit" className="w-full cursor-pointer">
-              Login
-            </Button>
-            )
-            
-            }
+              <Button type="submit" className="w-full cursor-pointer">
+                Sign up
+              </Button>
+            ) : (
+              <Button type="submit" className="w-full cursor-pointer">
+                Login
+              </Button>
+            )}
           </div>
         </div>
       </form>
