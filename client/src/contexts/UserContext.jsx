@@ -5,7 +5,7 @@ const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
 
   const [user, setUser] = useState(() => {
-    return JSON.parse(localStorage.getItem("user")) || { email: "" };
+      return JSON.parse(localStorage.getItem("user")) || { email: "" };
   });
 
   const updateUser = (newUser) => {
@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider value={{ user, updateUser }}>
-      {children} {}
+      {children}
     </UserContext.Provider>
   );
 };

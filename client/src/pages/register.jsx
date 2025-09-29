@@ -2,29 +2,13 @@ import { useMutation } from "@tanstack/react-query";
 import { AuthForm } from "@/components/AuthForm";
 import { CarouselPlugin } from "@/components/carousel";
 import { useNavigate } from "react-router-dom";
+import { registerQuery } from "@/lib/api/auth";
 
 export default function Register() {
   const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: async (data) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        const err = new Error(json.error || "Something went wrong");
-        err.status = response.status;
-        throw err;
-      }
-      return json;
-    },
+    mutationFn: registerQuery,
   });
 
   const handleSubmit = async (event) => {
@@ -38,9 +22,7 @@ export default function Register() {
     } catch (error) {
       console.error(error);
       if (error.status === 400) {
-        alert(
-          "please make sure you have entered a valid email, username and password."
-        );
+        alert("please make sure you have entered a valid email, username and password.");
       } else if (error.status === 500) {
         alert("internal server error !");
       }

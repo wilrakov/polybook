@@ -2,27 +2,14 @@ import { AuthForm } from "@/components/AuthForm";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { useUser } from "@/contexts/UserContext";
+import { loginQuery } from "@/lib/api/auth";
 
 export default function Login() {
   const { updateUser } = useUser();
   const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: async (data) => {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
-        method: "POST",
-          headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      const json = await response.json();
-
-      if (!response.ok) {
-        const err = new Error(json.error || "Something went wrong");
-        err.status = response.status;
-        throw err;
-      }
-      return json;
-    },
+    mutationFn: loginQuery,
   });
 
   const saveUser = (data) => {
