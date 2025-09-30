@@ -1,48 +1,47 @@
+import { AuthForm } from "@/components/AuthForm";
+import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { useRef } from "react";
+import { useUser } from "@/contexts/UserContext";
+import { loginQuery } from "@/lib/api/auth";
 
-export default function Register() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+export default function Login() {
+  const { updateUser } = useUser();
+  const navigate = useNavigate();
 
   const mutation = useMutation({
-    mutationFn: async (formData) => {
-      const response = await fetch(`${import.meta.env.API_URL}/login`, {
-        method: "POST",
-        body: formData,
-      });
-      return response.json();
-    },
+    mutationFn: loginQuery,
   });
 
-  const handleSubmit = (event) => {
-    mutation.mutate(new FormData(event.target));
+  const saveUser = (data) => {
+    localStorage.setItem("auth_token", data.token);
+    updateUser({ email: data.user.email });
+  };
+
+  const handleSubmit = async (event) => {
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+
+    try {
+      const result = await mutation.mutateAsync(data);
+      saveUser(result);
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      if (error.status === 400 || error.status === 401) {
+        alert(
+          "please make sure you have entered a valid email, username and password."
+        );
+      }
+    }
   };
 
   return (
     <>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          ref={emailRef}
-          placeholder="johnDoe@exemple.com"
-        />
-        <input
-          type="text"
-          name="password"
-          ref={passwordRef}
-          placeholder="password..."
-        />
-        <button type="submit">Login</button>
-      </form>
-
-      {mutation.isPending
-        ? "..."
-        : mutation.isSuccess
-        ? mutation.data.message
-        : mutation.error?.message}
+      <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+        <div className="w-full max-w-sm">
+          <AuthForm onSubmit={handleSubmit} type="login" />
+        </div>
+      </div>
     </>
   );
 }

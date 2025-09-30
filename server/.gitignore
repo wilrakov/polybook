@@ -5,7 +5,10 @@ __pycache__/
 *.pyd
 *.sqlite3
 
-# Env
+# Database
+*.db
+
+# Environment
 .env
 
 # Packages

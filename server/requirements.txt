@@ -1,0 +1,5 @@
+flask
+dotenv
+pyjwt
+email_validator
+flask_cors
