@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { AuthForm } from "@/components/AuthForm";
-import { CarouselPlugin } from "@/components/carousel";
+import { CarouselPlugin } from "@/components/ui/CarouselPlugin";
 import { useNavigate } from "react-router-dom";
 import { registerQuery } from "@/lib/api/auth";
 
