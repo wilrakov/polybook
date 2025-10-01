@@ -40,7 +40,7 @@ def register():
         valid = validate_email(email)  # renvoie un objet avec email normalisé
         print("Email valide :", valid.email)
     except EmailNotValidError as e:
-        print("Email invalide :", str(e))
+        return jsonify({"error": "Email incorrect"}), 400
     
     if not email or not password or not name:
         print("Erreur 1")
