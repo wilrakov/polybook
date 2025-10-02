@@ -6,13 +6,7 @@ import Login from "../pages/Login";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <PrivateRoute>
-        <Home />
-      </PrivateRoute>
-    ),
-  },
+    path: "/", Component: Home },
   { path: "/register", Component: Register },
   { path: "/login", Component: Login },
 ]);

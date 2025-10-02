@@ -1,3 +1,4 @@
+import { BookShelf } from "@/components/BookShelf";
 import { useUser } from "@/contexts/UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -11,10 +12,11 @@ export default function Home() {
     navigate("/login");
   };
 
+
   return (
     <>
       <h1>Hello, {user.email} and Welcome on Polybook</h1>
-
+      <BookShelf />
       <button onClick={logOutUser}>logout</button>
     </>
   );
