@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from "react";
 import { BookCard } from "./BookCard";
+import { LucideChevronLeft, LucideChevronRight } from "lucide-react";
 
 const books = [
   {
@@ -222,21 +223,21 @@ export function BookShelf() {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative group">
       {canScrollRight && (
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 bg-black h-[100%] z-10 opacity-30"
+          className="absolute right-0 bg-white h-[300px] top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-50 p-4"
         >
-          scroll
+          <LucideChevronRight />
         </button>
       )}
       {canScrollLeft && (
         <button
           onClick={() => scroll("left")}
-          className="absolute bg-black h-[100%] z-10 opacity-30"
+          className="absolute bg-white h-[300px] top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-50 p-4"
         >
-          scroll
+          <LucideChevronLeft />
         </button>
       )}
       <div
@@ -247,8 +248,12 @@ export function BookShelf() {
           <BookCard
             key={i}
             cover={book.cover}
+            genre={book.genre}
             title={book.title}
             description={book.description}
+            rating={book.rating}
+            pages={book.pages}
+            totalDuration={book.totalDuration}
           />
         ))}
       </div>
